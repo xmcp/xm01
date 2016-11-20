@@ -216,7 +216,7 @@ if __name__=='__main__':
     if len(sys.argv)>1:
         try:
             os.chdir(os.path.split(os.path.abspath(sys.argv[1]))[0])
-            with holy_open(sys.argv[1],'r') as f, holy_open('out.dat','w') as fout:
+            with holy_open(sys.argv[1],'r') as f, open('out.dat','w') as fout:
                 fout.write(parse(f.read()))
         except:
             traceback.print_exc()
@@ -227,7 +227,7 @@ if __name__=='__main__':
         while True:
             name=input('filename: ')
             try:
-                with holy_open(name,'r') as f, holy_open(outname,'w') as fout:
+                with holy_open(name,'r') as f, open(outname,'w') as fout:
                     fout.write(parse(f.read()))
             except:
                 traceback.print_exc()
