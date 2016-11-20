@@ -89,7 +89,7 @@ def walls(ctx,lines):
     return text(res)
 
     
-birth_re=re.compile(r'(\d+)\s+(\d+)(?:\s*@\s*(\d+))?$') # 10 10 @ 100
+birth_re=re.compile(r'([-\d]+)\s+([-\d]+)(?:\s*@\s*(\d+))?$') # 10 10 @ 100
 @jinja2.contextfilter
 def birthplaces(ctx,lines):
     res=['','-1 ::birthplaces']
@@ -104,7 +104,7 @@ def birthplaces(ctx,lines):
     return text(res)
     
     
-shop_re=re.compile(r'(\d+)\s+(\d+)$') # 10 10
+shop_re=re.compile(r'([-\d]+)\s+([-\d]+)$') # 10 10
 @jinja2.contextfilter
 def shops(ctx,lines):
     res=['','-1 ::shops']

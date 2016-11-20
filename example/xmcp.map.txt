@@ -1,46 +1,59 @@
-？？？？？？
-// 一张有趣的地图，by @xmcp
+���� 3.0
 
 % set h=250
-% set maxh=900
-% set w=1600
+% set shopdh=23
+% set maxh=850
+% set w=1200
+% set k=4
+
+% macro holy_line(xfrom,xto,yfrom,yto)
+  % for x in range(xfrom|i,xto|i+25,25)
+    % set y=(yfrom+(yto-yfrom)*(x-xfrom)/(xto-xfrom))|i
+    || [x] [y+7]~[y+8]
+    % if yfrom>yto
+      -- [x]~[x+25] [y]
+    % else
+      -- [x-25]~[x] [y]
+    % endif
+  % endfor
+% endmacro
 
 % filter walls
-  // 底板
+  // �װ�
   % for x in range(25,w+25,25)
-    || [x] [h]~[h+20]
+    || [x] [h]~[h+1]
   % endfor
 
-  // 商店底板
-  /*
-  -- 0~[(w/2-50)|i] 5
-  -- [(w/2-50)|i]~[(w/2+50)|i] 0
-  -- [(w/2+50)|i]~[w] 5
-  */
-  % for i in range(0,w+10,10)
-    -- [i-5]~[i+5] [((i-w/2)|abs/10)|i]
+  // �̵�װ�
+  || 0 [shopdh]~[shopdh+20]
+  [holy_line(0,w/2-50,shopdh,0)]
+  [holy_line(w/2-50+25,w/2+50,0,0)]
+  [holy_line(w/2+50,w,0,shopdh)]
+  || [w] [shopdh]~[shopdh+20]
+
+  // ���
+  % for x in [0,w]
+    % for y in range(h,maxh,20)
+      || [x] [y]~[y+1]
+    % endfor
   % endfor
 
-  // 侧板
-  || 0 [h]~[maxh]
-  || [w] [h]~[maxh]
-
-  // 平台
-  % for i in range(7):
-    % for y in range(h+150,maxh,150)
-      -- [(w*i/6-7)|i]~[(w*i/6+7)|i] [y]
+  // ƽ̨
+  % for i in range(k+1):
+    % for y in range(h+150,maxh+10,150)
+      -- [(w*i/k-8)|i]~[(w*i/k+8)|i] [y]
     % endfor
   % endfor
 % endfilter
 
 % filter birthplaces
-  % for x in range(25,w,25)
-    [x] [h+25]
+  % for x in range(125,w-75,25)
+    [x] [maxh+25]
   % endfor
 % endfilter
 
 % filter shops
-  [(w/2)|i] 0
+  [(w/2)|i] -60
 % endfilter
 
 % filter events
