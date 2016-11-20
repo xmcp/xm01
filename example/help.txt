@@ -1,0 +1,177 @@
+xm01帮助
+
+/*
+  xm01 是 @xmcp 制作的 Game01 地图模板语言
+  其目的是用一种人类友善的格式制作 Game01 地图
+
+  如你所见，第一行是地图名称
+  然后 // 是单行注释
+  这段就是块注释
+*/
+
+// 首先，Game01 本身支持的语法，xm01 也是支持的
+// 比如：
+
+0 1 2 3 // 等等
+
+// 但你肯定不想这么干，因为这样十分不优美
+
+// 所以我们还可以这样写：
+
+% filter walls
+  /*
+    我们把语句写进了名为 “walls” 的 filter 里。
+    在这个语句块中，你可以使用以下优美的语言来描述一堵墙：
+  */
+
+  111~222 333 // 表示一个 (111,333) 到 (222,333) 的横向墙
+  111 222~333 // 表示一个 (111,222) 到 (111,333) 的纵向墙
+
+  - 1~2 3
+  || 1 2~3 // 也可以在行首添加若干个“|”和“-” 使代码更易读
+
+  4~5 6 @ 100 // 横向墙可以如此指定出生概率
+
+// 使用 endfilter 来关闭这个代码块
+% endfilter
+
+/*
+  除 walls 之外，还有如下 filter：
+  - birthplaces: 用于指定自定义的出生点
+  - shops: 用于指定商店位置
+  - events: 用于指定掉落事件相关设置
+  - items: 用于指定商店道具的价格
+  - attributes: 用于指定地图属性
+
+  下面我们将依次介绍这些。
+*/
+
+% filter birthplaces
+  // 每行两个数字，分别是出生点的横、纵坐标
+  // 例如：
+  10 10
+  20 10 // 表示有 (10,10) (20,10) 两个出生点
+
+  30 10 @ 10 // 可以指定该出生点的出生概率
+% endfilter
+
+% filter shops
+  // 格式也是每行两个数字，表示横、纵坐标
+  40 10
+% endfilter
+
+% filter events
+  // 格式：事件名称 @发生概率 +收益 <=最大等级
+  // 例如：
+  money @0 // 概率为0，即永远不掉落金钱
+  live +2 <=50 // 掉落生命一次增加2，上限为50
+  bomb power @1000 +1000 // 有极大几率掉落炸弹威力增强，且效果显著
+
+  // 也支持直接使用 Game01 中的编号来代替事件名称，例如
+  3 @0 // 3 代表炸弹弹性
+
+  // ......更多事件的名称详见 cheatsheet.txt
+% endfilter
+
+% filter items
+  // 格式：物品名称 = 价格
+  // 例如：
+  speedup = 1 // 加速道具的价格是 1
+% endfilter
+
+% filter attributes
+  // 格式：属性名称 = 值
+  // 例如：
+  revive time = 1 // 一秒复活
+  gravity = 5.0 // 重力加速度为 5.0
+% endfilter
+
+// 完整的 event/item/attribute 列表详见 cheatsheet.txt
+
+/*
+  xm01 源于 Jinja2 模板语言，因此也支持 Jinja2 的诸多语法
+  例如 for、if、逻辑运算、宏、数学函数等
+  绘制一些复杂地图时可能会用到这些高级语法
+  详见 Jinja2 文档：jinja.pocoo.org/2/documentation/templates
+
+  下面是面向初学者的简单语法演示：
+*/
+
+// 设置变量、使用变量
+
+% set height = 100
+% filter walls
+  -- 0~100 [height] // 将 height 的值带入
+  -- 0~100 [height+100] // 将 height+100 的值带入
+% endfilter
+
+// if
+
+% filter walls
+  % if height>100
+    || 0 0~[height]
+  % elif height>10
+    || 0 0~100
+  % else
+    || 0 0~10
+  % endif
+% endfilter
+
+// for
+
+% filter shops
+  % for x in range(10,110,10)
+    // x = 10, 20, 30, ..., 100
+    [x] 0
+  % endfor
+% endfilter
+
+// 三目运算符
+
+% filter shops
+  100 [100 if height>100 else height]
+% endfilter
+
+// Filter
+
+% filter birthplaces
+  100 [(height/2)|i] // i 表示取整
+  100 [(height/2-100)|abs|i] // 先取绝对值，然后取整
+% endfilter
+// 详见 jinja.pocoo.org/docs/dev/templates/#list-of-builtin-filters
+
+// 宏
+
+// 声明宏
+% macro buildwall(xrange,yfrom,yto)
+  % for x in xrange
+    || [x] [yfrom]~[yto]
+  % endfor
+% endmacro
+
+% filter walls
+  [buildwall(range(100,10),0,10)]
+  [buildwall([1,2,3],10,20)] // 调用宏
+% endfilter
+
+// 最后说一点，
+// 如果你不习惯用百分号表示一行语句，也可以用大括号来代替
+// 例如：
+{ filter shops }
+  { for pos in [300,400,500] }
+    [pos] 0
+  { endfor }
+{ endfilter }
+
+// ……
+
+/*
+  如果你觉得本教程的代码过于复杂，请移步 example.map.txt，那是一个示例地图
+  如果你需要一个更为简略的参考手册，请移步 cheatsheet.txt
+
+  这个地图文件是完全符合 xm01 语法的，因此可以被编译成 Game01 可用的地图，
+  但编译出的地图毫无意义，所以请不要试图加载这张地图
+
+  =======
+  xm01 by @xmcp
+*/

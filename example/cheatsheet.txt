@@ -1,0 +1,111 @@
+﻿xm01 Cheat Sheet
+
+# 可用的 Context Filters 块及其内部语法
+
+- filter walls: 墙壁
+  - 横向墙壁包括起始横坐标(x1)、结束横坐标(x2)、纵坐标(y)
+    `x1~x2 y` 或 `-(若干个) x1~x2 y`
+  - 纵向墙壁包括起始纵坐标(y1)、结束纵坐标(y2)、横坐标(x)
+    `x y1~y2` 或 `|(若干个) x y1~y2`
+  - 在*横向*墙壁的结尾声明出生概率(prob)
+    `x1~x2 y @ prob`
+
+- filter birthplaces: 自定义出生点
+  - 出生点包括横坐标(x)和纵坐标(y)
+    `x y`
+  - 可以在出生点的结尾声明出生概率(prob)
+    `x y @ prob`
+
+- filter shops: 商店
+  - 商店包括横坐标(x)和纵坐标(y)
+    `x y`
+
+- filter events: 掉落事件
+  - 掉落事件以名称(name)或 Game01 的编号描述
+    `name ...`
+  - 可以指定事件的发生概率(prob)，默认为100，0表示不会发生
+    `name @prob`
+  - 可以指定事件的收益(profit)，不同事件默认收益不同，详见后文
+    `name +profit`
+  - 可以指定事件的最高等级(lv)，其中INF表示无上限 [*注]
+    `name <=lv`
+  - 对于同一事件的多个声明可以合并为一个
+    `name @prob +profit <=lv`
+
+- filter items: 商店道具
+  - 道具以名称(name)或 Game01 的编号描述
+    `name = ...`
+  - 用 on 和 off 指定道具是否启用，默认为启用 [*注]
+    `name = on` 或 `name = off`
+  - 可以指定道具的价格(cost)
+    `name = cost`
+
+- filter attributes: 地图属性
+  - 属性以名称(name)或 Game01 的编号描述，可以指定属性的值(value)
+    `name = value`
+
+[*注] 由于 Game01 的一些 bug，标有此脚注的语法请勿使用，否则地图将出现问题。
+      这个锅应该由 Game01 来背，xm01 本身没有任何问题，敬请注意。
+
+# 全部事件名称
+
+编号 / 名称 / 默认收益 / 默认最高等级 / 意义
+0 / bomb power / 5.0 / 5 / 炸弹威力增加
+1 / bomb size / 50 / 5 / 炸弹大小增加
+2 / bomb count / 1 / 5 / 炸弹数量增加
+3 / bomb elasticity / 0.1 / 5 / 炸弹弹性增加
+4 / bomb oblique / 0.1 / 5 / 斜向炸弹概率增加
+10 / money / 100 / INF / 金钱
+11 / live / 1 / INF / 生命
+
+# 全部道具名称
+
+编号 / 名称 / 意义
+0 / bomb power / 炸弹威力增加
+1 / bomb size / 炸弹大小增加
+2 / bomb count / 炸弹数量增加
+3 / bomb elasticity / 炸弹弹性增加
+4 / bomb oblique / 斜向炸弹概率增加
+10 / special power / 特殊能力
+11 / enlarge / 角色变大
+12 / speedup / 角色速度加快
+13 / parachute / 降落伞
+14 / bomb connect / 炸弹连线范围杀伤
+15 / teleport / 移形换位
+
+# 全部属性名称
+
+编号 / 名称 / 默认值 / 意义
+0 / lives / 20 / 命数
+1 / move speed / 18.5 / 移动速度
+2 / gravity / 9.8 / 重力加速度
+3 / jump speed / 60.0 / 起跳速度
+4 / event frequency / 30.0 / 掉落事件触发的期望时间
+5 / initial money / 0 / 初始金钱
+6 / money growth amount / 1 / 自然金钱增长量
+7 / money growth time / 1.0 / 自然金钱增长间隔
+8 / explode time / 0.3 / 爆炸准备时间
+9 / revive time / 5.0 / 复活时间
+10 / invincible time / 3.0 / 复活无敌时间
+11 / air resistance / 0.0005 / 空气阻力系数
+12 / death penalty / 50 / 死亡扣除金钱
+13 / death reward / 50 / 死亡掉落金钱
+14 / margin side / 100 / 地图左右边界
+15 / margin bottom / 50 / 地图下边界
+16 / margin top / 850 / 地图上边界
+17 / event fall speed / 2.5 / 掉落事件掉落速度，负值表示从下向上掉落
+18 / event keep time / 10.0 / 掉落事件消失时间，负值表示不与墙面碰撞
+19 / bomb gravity / gravity / 炸弹重力加速度
+20 / initial bomb power / 15.0 / 初始炸弹威力
+21 / initial bomb size / 200 / 初始炸弹范围
+22 / initial bomb count / 2 / 初始炸弹个数
+23 / initial bomb elasticity / 0.3 / 初始炸弹弹性系数
+24 / initial bomb oblique / 0.0 / 初始斜向炸弹触发概率
+25 / bomb intensity / 1.0 / 炸弹投射力度系数
+26 / minimal bomb delay / 1.5 / 最小炸弹触发时间
+27 / bomb distance ratio / 0.005 / 炸弹触发时间距离系数
+28 / bomb time ratio / 1.0 / 炸弹触发时间系数
+29 / bomb mass / 1.0 / 炸弹质量
+50 / engine frame delta / 0.2 / 物理引擎时间间隔
+51 / engine separate count / 2 / 物理引擎模拟分段数
+52 / engine bomb accuracy / 50 / 物理引擎炸弹精度

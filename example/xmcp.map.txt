@@ -1,0 +1,64 @@
+？？？？？？
+// 一张有趣的地图，by @xmcp
+
+% set h=250
+% set maxh=900
+% set w=1600
+
+% filter walls
+  // 底板
+  % for x in range(25,w+25,25)
+    || [x] [h]~[h+20]
+  % endfor
+
+  // 商店底板
+  /*
+  -- 0~[(w/2-50)|i] 5
+  -- [(w/2-50)|i]~[(w/2+50)|i] 0
+  -- [(w/2+50)|i]~[w] 5
+  */
+  % for i in range(0,w+10,10)
+    -- [i-5]~[i+5] [((i-w/2)|abs/10)|i]
+  % endfor
+
+  // 侧板
+  || 0 [h]~[maxh]
+  || [w] [h]~[maxh]
+
+  // 平台
+  % for i in range(7):
+    % for y in range(h+150,maxh,150)
+      -- [(w*i/6-7)|i]~[(w*i/6+7)|i] [y]
+    % endfor
+  % endfor
+% endfilter
+
+% filter birthplaces
+  % for x in range(25,w,25)
+    [x] [h+25]
+  % endfor
+% endfilter
+
+% filter shops
+  [(w/2)|i] 0
+% endfilter
+
+% filter events
+  bomb size @ 0
+  money @ 500
+% endfilter
+
+% filter items
+  enlarge = 999999
+% endfilter
+
+% filter attributes
+  lives = 15
+  event frequency = 5
+  event keep time = -1
+  revive time = 1
+  initial bomb count = 1
+  initial bomb elasticity = .3
+  event fall speed = -1
+  // initial money = 1000
+% endfilter

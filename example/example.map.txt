@@ -1,0 +1,24 @@
+﻿一个方框
+
+// 这是一个简单的实例地图，请先阅读帮助文档 help.txt
+
+// 本地图的相关常数，方便日后修改
+% set width=1600
+% set height=600
+
+% filter walls
+  || 0 0~[height]
+  || [width] 0~[height]
+  -- 0~[width] 0
+  -- 0~[width] [height] @0 // 方框的顶，不允许出生
+% endfilter
+
+% filter shops
+  % for pos in range(200,width,200)
+    [pos] 0 // 每 200 单位宽有一个商店
+  % endfor
+% endfilter
+
+% filter attributes
+  event keep time = -1 // 道具不会卡在顶端的墙上
+% endfilter
