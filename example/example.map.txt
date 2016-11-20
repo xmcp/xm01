@@ -1,8 +1,8 @@
 ﻿一个方框
 
-// 这是一个简单的实例地图，请先阅读帮助文档 help.txt
+// 这是一个简单的示例地图，阅读前请先学习帮助文档 help.txt
 
-// 本地图的相关常数，方便日后修改
+// 本地图的相关常数，不是必需的，但这样做可以方便日后修改
 % set width=1600
 % set height=600
 
@@ -20,5 +20,5 @@
 % endfilter
 
 % filter attributes
-  event keep time = -1 // 道具不会卡在顶端的墙上
+  event keep time = -1 // 道具不能卡在顶端的墙上
 % endfilter

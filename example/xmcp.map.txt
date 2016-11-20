@@ -1,4 +1,4 @@
-Ταΐρ 3.0
+θ‘¬η¤Ό 3.0
 
 % set h=250
 % set shopdh=23
@@ -19,26 +19,26 @@
 % endmacro
 
 % filter walls
-  // µΧ°ε
+  // εΊ•ζΏ
   % for x in range(25,w+25,25)
     || [x] [h]~[h+1]
   % endfor
 
-  // ΙΜµκµΧ°ε
+  // ε•†εΊ—εΊ•ζΏ
   || 0 [shopdh]~[shopdh+20]
   [holy_line(0,w/2-50,shopdh,0)]
   [holy_line(w/2-50+25,w/2+50,0,0)]
   [holy_line(w/2+50,w,0,shopdh)]
   || [w] [shopdh]~[shopdh+20]
 
-  // ²ΰ°ε
+  // δΎ§ζΏ
   % for x in [0,w]
     % for y in range(h,maxh,20)
       || [x] [y]~[y+1]
     % endfor
   % endfor
 
-  // Ζ½Μ¨
+  // εΉ³ε°
   % for i in range(k+1):
     % for y in range(h+150,maxh+10,150)
       -- [(w*i/k-8)|i]~[(w*i/k+8)|i] [y]
