@@ -33,7 +33,7 @@ GAME01_TAGS={
 walls=[]
 birthplaces=[]
 shops=[]
-zoomrate=2
+zoomrate=2.
 item_ids={}
 
 def _load_file(fn):
@@ -113,12 +113,13 @@ def zoom(a,b,c,d):
     return a/zoomrate,b/zoomrate,c/zoomrate,d/zoomrate
 
 def render(ratio):
+    ratio=float(ratio)
     canvas.delete('item')
     canvas.delete('wall')
     item_ids.clear()
 
     if not walls:
-        return messagebox.showerror('渲染失败','地图缺少墙壁')
+        return #messagebox.showerror('渲染失败','地图缺少墙壁')
 
     ys=[x[2] for x in walls]+[x[4] for x in walls]
     xs=[x[1] for x in walls]+[x[3] for x in walls]
@@ -145,6 +146,7 @@ def render(ratio):
 
     canvas.lift('item')
     canvas.lift('wall')
+    update_pos()
 
 textf=Frame(tk)
 textf.grid(row=0,column=0,columnspan=2,sticky='nswe')
@@ -213,10 +215,13 @@ def canvas_moving(event):
     canvas.yview_scroll(movey-event.y,'units')
     movex,movey=event.x,event.y
 
-def update_pos(event):
-    x=canvas.canvasx(event.x)*zoomrate
-    y=canvas.canvasy(event.y)*zoomrate
-    msg.set('Zoom = %d / X = %d / Y = %d'%(zoomrate,x,-y))
+def update_pos(event=None):
+    if event is None:
+        x,y=0,0
+    else:
+        x=canvas.canvasx(event.x)*zoomrate
+        y=canvas.canvasy(event.y)*zoomrate
+    msg.set('Zoom = %.2f / X = %d / Y = %d'%(zoomrate,x,-y))
 
 movex,movey=0,0
 canvas.bind('<Button-1>',canvas_startmove)
@@ -230,9 +235,8 @@ cmdf.columnconfigure(0,weight=1)
 Label(cmdf,textvariable=msg).grid(row=0,column=0,sticky='we')
 Checkbutton(cmdf,text='显示出生点',variable=birthvar,onvalue='on',offvalue='off',command=lambda:render(zoomrate))\
     .grid(row=0,column=1)
-Button(cmdf,text='x1',width=4,command=lambda:render(1)).grid(row=0,column=2)
-for ratio in range(2,9):
-    Button(cmdf, text='x1/%d'%ratio,width=4,command=(lambda r:lambda:render(r))(ratio)).grid(row=0,column=ratio+1)
+zoomscale=Scale(cmdf,length=100,from_=8,to=1,value=2,command=render)
+zoomscale.grid(row=0,column=2)
 
-threading.Thread(target=file_watcher).start()
+threading.Thread(target=file_watcher,daemon=True).start()
 mainloop()
