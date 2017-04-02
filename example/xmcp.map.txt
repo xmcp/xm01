@@ -1,8 +1,8 @@
-葬礼 3.0
+葬礼 3.1
 
-% set h=250
+% set h=300
 % set shopdh=23
-% set maxh=850
+% set maxh=900
 % set w=1200
 % set k=4
 
@@ -20,7 +20,7 @@
 
 % filter walls
   // 底板
-  % for x in range(25,w+25,25)
+  % for x in range(0,w+25,25)
     || [x] [h]~[h+1]
   % endfor
 
@@ -32,8 +32,8 @@
   || [w] [shopdh]~[shopdh+20]
 
   // 侧板
-  % for x in [0,w]
-    % for y in range(h,maxh,20)
+  % for x in [-7,w+7]
+    % for y in range(h,maxh,24)
       || [x] [y]~[y+1]
     % endfor
   % endfor
@@ -47,8 +47,11 @@
 % endfilter
 
 % filter birthplaces
-  % for x in range(125,w-75,25)
-    [x] [maxh+25]
+  % for x in range(100,w//2-125,25)
+    [x] [maxh+250]
+  % endfor
+  % for x in range(w//2+150,w-75,25)
+    [x] [maxh+250]
   % endfor
 % endfilter
 
@@ -59,6 +62,7 @@
 % filter events
   bomb size @ 0
   money @ 500
+  bomb elasticity @ 500
 % endfilter
 
 % filter items
@@ -73,5 +77,5 @@
   initial bomb count = 1
   initial bomb elasticity = .3
   event fall speed = -1
-  // initial money = 1000
+  jump speed = 70
 % endfilter

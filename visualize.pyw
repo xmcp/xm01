@@ -121,8 +121,8 @@ def render(ratio):
     if not walls:
         return #messagebox.showerror('渲染失败','地图缺少墙壁')
 
-    ys=[x[2] for x in walls]+[x[4] for x in walls]
-    xs=[x[1] for x in walls]+[x[3] for x in walls]
+    ys=[x[2] for x in walls]+[x[4] for x in walls]+[x[2] for x in birthplaces]+[x[2] for x in shops]
+    xs=[x[1] for x in walls]+[x[3] for x in walls]+[x[1] for x in birthplaces]+[x[1] for x in shops]
     xmin=min(xs)-100
     xmax=max(xs)+100
     ymin=min(ys)-50
