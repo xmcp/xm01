@@ -1,8 +1,8 @@
 葬礼 3.1
 
-% set h=300
+% set h=250
 % set shopdh=23
-% set maxh=900
+% set maxh=850
 % set w=1200
 % set k=4
 
@@ -60,7 +60,7 @@
 % endfilter
 
 % filter events
-  bomb size @ 0
+  bomb size @ 0 // you can't do anything without the shop
   money @ 500
   bomb elasticity @ 500
 % endfilter
@@ -77,5 +77,5 @@
   initial bomb count = 1
   initial bomb elasticity = .3
   event fall speed = -1
-  jump speed = 70
+  jump speed = 65
 % endfilter
